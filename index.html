@@ -1,1 +1,114 @@
-Hello world
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+	<link rel="stylesheet" href="main.css">
+        <title>3D Audio Platform</title>
+    </head>
+    <body>
+        <details id="creator"></details>
+        <details id="part"></details>
+        <details id="microphone"></details>
+        <details id="reverberation"></details>
+	<dialog id="creatorDialog">
+	  <form method="dialog" id="creatorDialogForm">
+	    <div>Name : <input id="creatorName" type="text"></div>
+	    <div>Affiliation : <input id="creatorAffiliation" type="text"></div>
+	    <div>E-mail : <input id="creatorEmail" type="text"></div>
+	    <div>Role : <input id="creatorRole" type="text"></div>
+	    <div>License : <input id="creatorLicense" type="text"></div>
+	    <menu>
+	      <button id="creatorOkBtn" value="default">OK</button>
+	      <button style="margin-left:30px;" value="cancel">Cancel</button>
+	    </menu>
+	  </form>
+	</dialog>
+	<dialog id="partDialog">
+	  <form method="dialog" id="partDialogForm">
+	    <div>Part name : <input id="partName" type="text"></div>
+	    <div>Amp : <input id="partAmp" type="text"></div>
+	    <menu>
+	      <button id="partOkBtn" value="default">OK</button>
+	      <button style="margin-left:30px;" value="cancel">Cancel</button>
+	    </menu>
+	  </form>
+	</dialog>
+	<dialog id="fileDialog">
+	  <form method="dialog" id="fileDialogForm">
+	    <div>File name : <input type="file" accept=".wav" id="wavFiles" value="notSelected" /></div>
+	    <audio id="audioPlayer" src="" controls preload="auto">Test</audio>
+	    <div><label>Channel:
+		<select id="channelSelector" onChange="selectChannel()">
+		  <option>1</option>
+		  <option>2</option>
+		</select>
+	    </label></div>
+	    <div>Start Time : <input id="fileStartTime" type="text"></div>
+	    <menu>
+	      <button id="fileOkBtn" value="default">OK</button>
+	      <button style="margin-left:30px;" value="cancel">Cancel</button>
+	    </menu>
+	  </form>
+	</dialog>
+	<dialog id="seqDialog">
+	  <form method="dialog" name="seqDialogForm" id="seqDialogForm" style="margin:10px;">
+	    <div id="seqId">Id : </div>
+	    <div>Time : <input id="seqTime" type="text"></div>
+	    <div><label>Motion:
+		<select id="motionSelector" name="motionSelector" onChange="selectSeq()">
+		  <option value="none"></option>
+		  <option value="unmoving">Unmoving</option>
+		  <option value="rotate">Rotate</option>
+		  <option value="moveto">MoveTo</option>
+		  <option value="random">Random</option>
+		  <option value="stop">Stop</option>
+		</select>
+	    </label></div>
+	    <div  class="motion unmoving moveto">Position_radius : <input id="posRadiusInput" type="text"></div>
+	    <div  class="motion unmoving moveto">Position_azimuth : <input id="posAzimuthInput" type="text"></div>
+	    <div  class="motion unmoving moveto">Position_elevation : <input id="posElevationInput" type="text"></div>
+	    <div  class="motion rotate">Period_h : <input id="periodHInput" type="text"></div>
+	    <div  class="motion rotate">Period_v : <input id="periodVInput" type="text"></div>
+	    <div  class="motion moveto">Duration : <input id="durationInput" type="text"></div>
+	    <div>Comment : <input id="seqComment" type="text"></div>
+	    </div>
+	    <menu>
+	      <button id="seqOkBtn" value="default">OK</button>
+	      <button style="margin-left:30px;" value="cancel">Cancel</button>
+	    </menu>
+	  </form>
+	</dialog>
+	<dialog id="micDialog">
+	  <form method="dialog" id="micDialogForm">
+	    <div>Microphone Position X : <input id="micPositionX" type="text"></div>
+	    <div>Microphone Position Y : <input id="micPositionY" type="text"></div>
+	    <div>Microphone Position Z : <input id="micPositionZ" type="text"></div>
+	    <menu>
+	      <button id="micOkBtn" value="default">OK</button>
+	      <button style="margin-left:30px;" value="cancel">Cancel</button>
+	    </menu>
+	  </form>
+	</dialog>
+	<dialog id="revDialog">
+	  <form method="dialog" id="revDialogForm">
+	    <div>Reverberation IR File Name : <input id="revIRFN" type="text"></div>
+	    <div>Reverberation Amp : <input id="revAmp" type="text"></div>
+	    <menu>
+	      <button id="revOkBtn" value="default">OK</button>
+	      <button style="margin-left:30px;" value="cancel">Cancel</button>
+	    </menu>
+	  </form>
+	</dialog>
+	<input type="file" accept=".json" id="loadFiles" value="Load" />
+	<button id="load">Load</button><br />
+	<input id="saveFileName" type="text" />
+	<button onclick="export2txt()">Save</button>
+	<button onclick="clearData()">Clear</button>
+
+	<p>
+	  <output aria-live="polite"></output>
+	</p>
+	<script src="js/main.js"></script>
+    </body>
+</html>
+
