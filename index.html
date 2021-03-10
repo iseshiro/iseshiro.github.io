@@ -1,114 +1,122 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-	<link rel="stylesheet" href="main.css">
-        <title>3D Audio Platform</title>
-    </head>
-    <body>
+  <head>
+    <meta charset="utf-8">
+    <meta X-Content-Type-Options="nosniff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>3D Audio Platform</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="sidebar1">
         <details id="creator"></details>
         <details id="part"></details>
         <details id="microphone"></details>
         <details id="reverberation"></details>
-	<dialog id="creatorDialog">
-	  <form method="dialog" id="creatorDialogForm">
-	    <div>Name : <input id="creatorName" type="text"></div>
-	    <div>Affiliation : <input id="creatorAffiliation" type="text"></div>
-	    <div>E-mail : <input id="creatorEmail" type="text"></div>
-	    <div>Role : <input id="creatorRole" type="text"></div>
-	    <div>License : <input id="creatorLicense" type="text"></div>
-	    <menu>
-	      <button id="creatorOkBtn" value="default">OK</button>
-	      <button style="margin-left:30px;" value="cancel">Cancel</button>
-	    </menu>
-	  </form>
-	</dialog>
-	<dialog id="partDialog">
-	  <form method="dialog" id="partDialogForm">
-	    <div>Part name : <input id="partName" type="text"></div>
-	    <div>Amp : <input id="partAmp" type="text"></div>
-	    <menu>
-	      <button id="partOkBtn" value="default">OK</button>
-	      <button style="margin-left:30px;" value="cancel">Cancel</button>
-	    </menu>
-	  </form>
-	</dialog>
-	<dialog id="fileDialog">
-	  <form method="dialog" id="fileDialogForm">
-	    <div>File name : <input type="file" accept=".wav" id="wavFiles" value="notSelected" /></div>
-	    <audio id="audioPlayer" src="" controls preload="auto">Test</audio>
-	    <div><label>Channel:
-		<select id="channelSelector" onChange="selectChannel()">
-		  <option>1</option>
-		  <option>2</option>
-		</select>
-	    </label></div>
-	    <div>Start Time : <input id="fileStartTime" type="text"></div>
-	    <menu>
-	      <button id="fileOkBtn" value="default">OK</button>
-	      <button style="margin-left:30px;" value="cancel">Cancel</button>
-	    </menu>
-	  </form>
-	</dialog>
-	<dialog id="seqDialog">
-	  <form method="dialog" name="seqDialogForm" id="seqDialogForm" style="margin:10px;">
-	    <div id="seqId">Id : </div>
-	    <div>Time : <input id="seqTime" type="text"></div>
-	    <div><label>Motion:
-		<select id="motionSelector" name="motionSelector" onChange="selectSeq()">
-		  <option value="none"></option>
-		  <option value="unmoving">Unmoving</option>
-		  <option value="rotate">Rotate</option>
-		  <option value="moveto">MoveTo</option>
-		  <option value="random">Random</option>
-		  <option value="stop">Stop</option>
-		</select>
-	    </label></div>
-	    <div  class="motion unmoving moveto">Position_radius : <input id="posRadiusInput" type="text"></div>
-	    <div  class="motion unmoving moveto">Position_azimuth : <input id="posAzimuthInput" type="text"></div>
-	    <div  class="motion unmoving moveto">Position_elevation : <input id="posElevationInput" type="text"></div>
-	    <div  class="motion rotate">Period_h : <input id="periodHInput" type="text"></div>
-	    <div  class="motion rotate">Period_v : <input id="periodVInput" type="text"></div>
-	    <div  class="motion moveto">Duration : <input id="durationInput" type="text"></div>
-	    <div>Comment : <input id="seqComment" type="text"></div>
-	    </div>
-	    <menu>
-	      <button id="seqOkBtn" value="default">OK</button>
-	      <button style="margin-left:30px;" value="cancel">Cancel</button>
-	    </menu>
-	  </form>
-	</dialog>
-	<dialog id="micDialog">
-	  <form method="dialog" id="micDialogForm">
-	    <div>Microphone Position X : <input id="micPositionX" type="text"></div>
-	    <div>Microphone Position Y : <input id="micPositionY" type="text"></div>
-	    <div>Microphone Position Z : <input id="micPositionZ" type="text"></div>
-	    <menu>
-	      <button id="micOkBtn" value="default">OK</button>
-	      <button style="margin-left:30px;" value="cancel">Cancel</button>
-	    </menu>
-	  </form>
-	</dialog>
-	<dialog id="revDialog">
-	  <form method="dialog" id="revDialogForm">
-	    <div>Reverberation IR File Name : <input id="revIRFN" type="text"></div>
-	    <div>Reverberation Amp : <input id="revAmp" type="text"></div>
-	    <menu>
-	      <button id="revOkBtn" value="default">OK</button>
-	      <button style="margin-left:30px;" value="cancel">Cancel</button>
-	    </menu>
-	  </form>
-	</dialog>
-	<input type="file" accept=".json" id="loadFiles" value="Load" />
-	<button id="load">Load</button><br />
-	<input id="saveFileName" type="text" />
-	<button onclick="export2txt()">Save</button>
-	<button onclick="clearData()">Clear</button>
+        <details id="data">  <summary>Data</summary>
+	  <label>Load Data : <input class="mainInput" type="file" accept=".json" id="loadFiles" value="Load"  style="width:30%;height:30px;font-size:10px"/></label>
+	  <button id="load" class="mainButton">Load</button><br />
+	  <label>Save Data : <input class="mainInput" id="saveFileName" type="text" style="width:100px"/></label>
+	  <button class="mainButton" onclick="export2txt()">Save</button>
+	  <p><button class="mainButton" onclick="clearData()">Clear</button>
+	    <button class="mainButton" onclick="ExecUpload()">Upload</button></p>
+	</details>
+      </div>
+      <div id="waveCanvas-container">
+	<canvas id="waveCanvas"></canvas>
+	<canvas id="waveCanvasSequence"></canvas>
+	<img src="img/line.gif" id="cursorLine"></img>
+      </div>
+      <div id="positionCanvas-container">
+	<canvas id="positionCanvas"></canvas>
+	<canvas id="positionCanvasSequence"></canvas>
+      </div>
+      <div id="control">
+	<img src="img/play_btn.png" class="playbtn" id="playbtn" onclick="play_btn_click()"></img>
+      </div>
+      <div id="play_btn_response">play btn response</div>
+      <div id="spaceCanvas-container">
+	<canvas id="spaceCanvas" width="800" height="400"></canvas>
+	<canvas id="spaceCanvasSequence" width="800" height="400"></canvas>
+      </div>
+      <textarea id="element_result" disabled></textarea>
+    </div>
+    <div id="creatorDialog" style="position:absolute; left:20px; top:20px; background-color:#fbff96; display:none;">
+      <form method="dialog" id="creatorDialogForm">
+	<div><label>Name : <input id="creatorName" type="text"></label></div>
+	<div><label>Affiliation : <input id="creatorAffiliation" type="text"></label></div>
+	<div><label>E-mail : <input id="creatorEmail" type="text"></label></div>
+	<div><label>Role : <input id="creatorRole" type="text"></label></div>
+	<div><label>License : <input id="creatorLicense" type="text"></label></div>
+	<button id="creatorOkBtn" value="default">OK</button>
+	<button id="creatorCancelBtn" style="margin-left:30px;" value="cancel">Cancel</button>
+      </form>
+    </div>
+    <div id="partDialog" style="position:absolute; left:20px; top:20px; background-color:#fbff96; display:none;">
+      <form method="dialog" id="partDialogForm">
+	<div><label>Part name : <input id="partName" type="text"></label></div>
+	<div><label>Amp : <input id="partAmp" type="text"></label></div>
+	<button id="partOkBtn" value="default">OK</button>
+	<button id="partCancelBtn" style="margin-left:30px;" value="cancel">Cancel</button>
+      </form>
+    </div>
+    <div id="fileDialog" style="position:absolute; left:20px; top:20px; background-color:#fbff96; display:none;">
+      <div><label>Channel:
+	  <select id="channelSelector" onChange="selectChannel()">
+	    <option>1</option>
+	    <option>2</option>
+	  </select>
+      </label></div>
+      <div><label>Start Time : <input id="fileStartTime" type="text"></label></div>
+      <div><label>End Time : <input id="fileEndTime" type="text"></label></div>
+      <button id="fileOkBtn" value="default">OK</button>
+      <button id="fileCancelBtn" style="margin-left:30px;" value="cancel">Cancel</button>
 
-	<p>
-	  <output aria-live="polite"></output>
-	</p>
-	<script src="js/main.js"></script>
-    </body>
+    </div>
+    <div id="seqDialog" style="position:absolute; left:20px; top:20px; background-color:#fbff96; display:none;">
+      <form method="dialog" name="seqDialogForm" id="seqDialogForm" style="margin:10px;">
+	<div id="seqId">Id : </div>
+	<div><label>Time : <input id="seqTime" type="text"></label></div>
+	<div><label>Motion:
+	    <select id="motionSelector" name="motionSelector" onChange="selectSeq()">
+	      <option value="none"></option>
+	      <option value="unmoving">Unmoving</option>
+	      <option value="rotate">Rotate</option>
+	      <option value="moveto">MoveTo</option>
+	      <option value="random">Random</option>
+	      <option value="stop">Stop</option>
+	    </select>
+	</label></div>
+	<div class="motion unmoving moveto"><label>Position_radius : <input id="posRadiusInput" type="text" onChange="radiusChange()"></label></div>
+	<div class="motion unmoving moveto"><label>Position_azimuth : <input id="posAzimuthInput" type="text" value="0.0" onChange="azimuthChange()"></label></div>
+	<div class="motion unmoving moveto"><label>Position_elevation : <input id="posElevationInput" type="text" value="0.0" onChange="elevationChange()"></label></div>
+	<div class="motion rotate"><label>Cycle_h : <input id="cycleHInput" type="text" onChange="rotateCycHChange()"></label></div>
+	<div class="motion rotate"><label>Cycle_v : <input id="cycleVInput" type="text" onChange="rotateCycVChange()"></label></div>
+	<div class="motion moveto random"><label>Duration : <input id="durationInput" type="text"></label></div>
+	<div><label>Comment : <input id="seqComment" type="text"></label></div>
+	<button id="seqOkBtn" value="default">OK</button>
+	<button id="seqCancelBtn" style="margin-left:30px;" value="cancel">Cancel</button>
+      </form>
+    </div>
+    <div id="micDialog" style="position:absolute; left:20px; top:20px; background-color:#fbff96; display:none;">
+      <form method="dialog" id="micDialogForm">
+	<div><label>Microphone Position X : <input id="micPositionX" type="text"></label></div>
+	<div><label>Microphone Position Y : <input id="micPositionY" type="text"></label></div>
+	<div><label>Microphone Position Z : <input id="micPositionZ" type="text"></label></div>
+	<button id="micOkBtn" value="default">OK</button>
+	<button id="micCancelBtn" style="margin-left:30px;" value="cancel">Cancel</button>
+      </form>
+    </div>
+    <div id="revDialog" style="position:absolute; left:20px; top:20px; background-color:#fbff96; display:none;">
+      <form method="dialog" id="revDialogForm">
+	<div><label>Reverberation IR File Name : <input id="revIRFN" type="text"></label></div>
+	<div><label>Reverberation Amp : <input id="revAmp" type="text"></label></div>
+	<button id="revOkBtn" value="default">OK</button>
+	<button id="revCancelBtn" style="margin-left:30px;" value="cancel">Cancel</button>
+      </form>
+    </div>
+    <script src="js/main.js"></script>
+
+  </body>
 </html>
-
